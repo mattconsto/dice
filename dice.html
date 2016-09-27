@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dice Roller</title>
+	<script src="dice.min.js"></script>
+	<style>
+		html {
+			height:		100%;
+		}
+		body {
+			width:		300px;
+			margin:		0 auto;
+			position:	relative;
+			top:		100px;
+		}
+		#dicebuttons {
+			display:	flex;
+		}
+		#dicebuttons button {
+			flex-grow:	8;
+		}
+		textarea {
+			width:		100%;
+			box-sizing:	border-box;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>Dice Roller</h1>
+		<h3>A Jison DnD style dice roller<h3>
+	</header>
+
+	<main>
+		<p id="dicebuttons"><button>d2</button><button>d4</button><button>d6</button><button>d8</button><button>d10</button><button>d12</button><button>d20</button><button>d100</button></p>
+		<p><textarea id="input">4d6h2+2</textarea></p>
+		<p id="output"></p>
+		<p><button onclick="calculate();">Calculate</button></p>
+	</main>
+</body>
+	<script>
+		function calculate() {
+			try {
+				document.getElementById("output").innerText = "= " + dice.parse(document.getElementById("input").value);
+			}
+			catch (e) {
+				document.getElementById("output").innerText = e;
+			}
+		}
+		
+		calculate();
+		
+		var buttons = document.querySelectorAll("#dicebuttons button"), i;
+
+		for (i = 0; i < buttons.length; ++i) {
+			buttons[i].onclick = function(event) {
+				document.getElementById("input").value = event.target.innerText;
+				calculate();
+			}
+		}
+	</script>
+</html>

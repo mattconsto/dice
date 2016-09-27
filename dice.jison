@@ -19,6 +19,7 @@
 "d"|"D"			return 'D'
 "h"|"H"|"k"|"K"		return 'H'
 "l"|"L"			return 'L'
+"f"|"F"			return 'F'
 <<EOF>>			return 'EOF'
 .			throw "Invalid Input Token!"
 
@@ -30,7 +31,7 @@
 %left '*' '/'
 %left '^'
 %right '%'
-%right 'D' 'H' 'L'
+%right 'D' 'H' 'L' 'F'
 %left UMINUS
 
 %start expressions
@@ -80,6 +81,9 @@ e:
 | 'D' e			{
 	if($2 < 1)  throw "Dice must have at least one side!";
 	$$ = getRandomInt(1, $2);
+}
+| 'D' 'F'		{
+	$$ = getRandomInt(-1, 1);
 }
 | '(' e ')'		{$$ = $2;}
 | NUMBER		{$$ = Number(yytext);}

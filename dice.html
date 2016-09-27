@@ -32,16 +32,16 @@
 	</header>
 
 	<main>
-		<p id="dicebuttons"><button>d2</button><button>d4</button><button>d6</button><button>d8</button><button>d10</button><button>d12</button><button>d20</button><button>d100</button></p>
+		<p id="dicebuttons"><button>d2</button><button>d4</button><button>d6</button><button>d8</button><button>d10</button><button>d12</button><button>d20</button><button>d100</button><button>df</button></p>
 		<p><textarea id="input">4d6h2+2</textarea></p>
-		<p id="output"></p>
-		<p><button onclick="calculate();">Calculate</button></p>
+		<p><output id="output"></output></p>
+		<p><button onclick="calculate();">Roll</button></p>
 	</main>
 </body>
 	<script>
 		function calculate() {
 			try {
-				document.getElementById("output").innerText = "= " + dice.parse(document.getElementById("input").value);
+				document.getElementById("output").innerText = document.getElementById("input").value + " = " + dice.parse(document.getElementById("input").value);
 			}
 			catch (e) {
 				document.getElementById("output").innerText = e;

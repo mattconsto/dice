@@ -74,7 +74,7 @@ e:
 	if($3 < 1)  throw "Dice must have at least one side!";
 	var rolls = [];
 	for(var i = $1; i--;) rolls.push(getRandomInt(1, $3));
-	var roll = rolls.reduce(function (a, b) {return a - b;});
+	var roll = rolls.reduce(function (a, b) {return a + b;});
 	console.log("Rolled " + rolls + " = " + roll);
 	$$ = roll;
 }

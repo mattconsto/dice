@@ -19,7 +19,7 @@
 		#dicebuttons button {
 			flex-grow:	8;
 		}
-		textarea {
+		input[type="text"] {
 			width:		100%;
 			box-sizing:	border-box;
 		}
@@ -33,7 +33,7 @@
 
 	<main>
 		<p id="dicebuttons"><button>d2</button><button>d4</button><button>d6</button><button>d8</button><button>d10</button><button>d12</button><button>d20</button><button>d100</button><button>df</button></p>
-		<p><textarea id="input">4d6h2+2</textarea></p>
+		<p><input type="text" id="input" value="4d6h2+2" /></p>
 		<p><output id="output"></output></p>
 		<p><button onclick="calculate();">Roll</button></p>
 	</main>
@@ -58,5 +58,10 @@
 				calculate();
 			}
 		}
+		
+		document.getElementById("input").addEventListener("keyup", function(event) {
+			event.preventDefault();
+			if (event.keyCode == 13) calculate();
+		});
 	</script>
 </html>

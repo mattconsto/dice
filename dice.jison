@@ -80,10 +80,14 @@ e:
 }
 | 'D' e			{
 	if($2 < 1)  throw "Dice must have at least one side!";
-	$$ = getRandomInt(1, $2);
+	var roll = getRandomInt(1, $2);
+	console.log("Rolled " + roll);
+	$$ = roll;
 }
 | 'D' 'F'		{
-	$$ = getRandomInt(-1, 1);
+	var roll = getRandomInt(-1, 1);
+	console.log("Rolled " + roll);
+	$$ = roll;
 }
 | '(' e ')'		{$$ = $2;}
 | NUMBER		{$$ = Number(yytext);}

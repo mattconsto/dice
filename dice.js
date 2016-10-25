@@ -72,12 +72,12 @@
   }
 */
 var dice = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[2,16],$V1=[1,3],$V2=[1,4],$V3=[1,5],$V4=[1,6],$V5=[1,8],$V6=[1,9],$V7=[1,10],$V8=[1,11],$V9=[1,12],$Va=[1,13],$Vb=[1,14],$Vc=[5,6,8,9,10,11,13,14,17],$Vd=[5,6,7,8,9,10,11,12,13,14,17],$Ve=[5,6,7,8,9,10,11,13,14,17],$Vf=[5,6,7,13,14,17],$Vg=[5,6,7,8,9,13,14,17],$Vh=[5,6,7,8,9,10,13,14,17];
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[2,19],$V1=[1,3],$V2=[1,4],$V3=[1,5],$V4=[1,6],$V5=[1,8],$V6=[1,9],$V7=[1,10],$V8=[1,11],$V9=[1,12],$Va=[1,13],$Vb=[1,14],$Vc=[5,6,8,9,10,11,13,14,17],$Vd=[5,6,7,8,9,10,11,12,13,14,17],$Ve=[5,6,7,8,9,10,11,13,14,17],$Vf=[5,6,7,13,14,17],$Vg=[5,6,7,8,9,13,14,17],$Vh=[5,6,7,8,9,10,13,14,17];
 var parser = {trace: function trace() { },
 yy: {},
 symbols_: {"error":2,"expressions":3,"e":4,"EOF":5,"+":6,"-":7,"*":8,"/":9,"^":10,"%":11,"D":12,"H":13,"L":14,"F":15,"(":16,")":17,"NUMBER":18,"$accept":0,"$end":1},
 terminals_: {2:"error",5:"EOF",6:"+",7:"-",8:"*",9:"/",10:"^",11:"%",12:"D",13:"H",14:"L",15:"F",16:"(",17:")",18:"NUMBER"},
-productions_: [0,[3,2],[4,3],[4,3],[4,3],[4,3],[4,3],[4,3],[4,2],[4,5],[4,5],[4,3],[4,2],[4,2],[4,3],[4,1],[4,0]],
+productions_: [0,[3,2],[4,3],[4,3],[4,3],[4,3],[4,3],[4,3],[4,2],[4,5],[4,5],[4,3],[4,2],[4,5],[4,5],[4,3],[4,2],[4,3],[4,1],[4,0]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -111,7 +111,7 @@ case 9:
 
 	if($$[$0-2] < 1)  throw "Dice must have at least one side!";
 	if($$[$0] < 1)  throw "You must keep at least one die!";
-	if($$[$0] > $$[$0-2]) throw "You can't keep more dice than you roll!";
+	if($$[$0] > $$[$0-4]) throw "You can't keep more dice than you roll!";
 	var rolls = [];
 	for(var i = $$[$0-4]; i--;) rolls.push(getRandomInt(1, $$[$0-2]));
 	var roll = rolls.sort(function (a, b) {return a - b;}).slice(rolls.length - $$[$0], rolls.length).reduce(function (a, b) {return a + b;});
@@ -123,7 +123,7 @@ case 10:
 
 	if($$[$0-2] < 1)  throw "Dice must have at least one side!";
 	if($$[$0] < 1)  throw "You must keep at least one die!";
-	if($$[$0] > $$[$0-2]) throw "You can't keep more dice than you roll!";
+	if($$[$0] > $$[$0-4]) throw "You can't keep more dice than you roll!";
 	var rolls = [];
 	for(var i = $$[$0-4]; i--;) rolls.push(getRandomInt(1, $$[$0-2]));
 	var roll = rolls.sort(function (a, b) {return a - b;}).slice(0, $$[$0]).reduce(function (a, b) {return a + b;});
@@ -151,23 +151,54 @@ case 12:
 break;
 case 13:
 
+	if($$[$0] < 1)  throw "You must keep at least one die!";
+	if($$[$0] > $$[$0-4]) throw "You can't keep more dice than you roll!";
+	var rolls = [];
+	for(var i = $$[$0-4]; i--;) rolls.push(getRandomInt(-1, 1));
+	var roll = rolls.sort(function (a, b) {return a - b;}).slice(rolls.length - $$[$0], rolls.length).reduce(function (a, b) {return a + b;});
+	console.log("Rolled " + rolls + " = " + roll);
+	this.$ = roll;
+
+break;
+case 14:
+
+	if($$[$0] < 1)  throw "You must keep at least one die!";
+	if($$[$0] > $$[$0-4]) throw "You can't keep more dice than you roll!";
+	var rolls = [];
+	for(var i = $$[$0-4]; i--;) rolls.push(getRandomInt(-1, 1));
+	var roll = rolls.sort(function (a, b) {return a - b;}).slice(0, $$[$0]).reduce(function (a, b) {return a + b;});
+	console.log("Rolled " + rolls + " = " + roll);
+	this.$ = roll;
+
+break;
+case 15:
+
+	var rolls = [];
+	for(var i = $$[$0-2]; i--;) rolls.push(getRandomInt(-1, 1));
+	var roll = rolls.reduce(function (a, b) {return a + b;});
+	console.log("Rolled " + rolls + " = " + roll);
+	this.$ = roll;
+
+break;
+case 16:
+
 	var roll = getRandomInt(-1, 1);
 	console.log("Rolled " + roll);
 	this.$ = roll;
 
 break;
-case 14:
+case 17:
 this.$ = $$[$0-1];
 break;
-case 15:
+case 18:
 this.$ = Number(yytext);
 break;
-case 16:
+case 19:
 throw "Invalid Input Structure";
 break;
 }
 },
-table: [o([5,6,8,9,10,11],$V0,{3:1,4:2,7:$V1,12:$V2,16:$V3,18:$V4}),{1:[3]},{5:[1,7],6:$V5,7:$V6,8:$V7,9:$V8,10:$V9,11:$Va,12:$Vb},o($Vc,$V0,{4:15,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:16,7:$V1,12:$V2,15:[1,17],16:$V3,18:$V4}),o([6,8,9,10,11,17],$V0,{4:18,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vd,[2,15]),{1:[2,1]},o($Vc,$V0,{4:19,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:20,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:21,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:22,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:23,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:24,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:25,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vd,[2,8]),o($Ve,[2,12],{12:$Vb}),o($Vd,[2,13]),{6:$V5,7:$V6,8:$V7,9:$V8,10:$V9,11:$Va,12:$Vb,17:[1,26]},o($Vf,[2,2],{8:$V7,9:$V8,10:$V9,11:$Va,12:$Vb}),o($Vf,[2,3],{8:$V7,9:$V8,10:$V9,11:$Va,12:$Vb}),o($Vg,[2,4],{10:$V9,11:$Va,12:$Vb}),o($Vg,[2,5],{10:$V9,11:$Va,12:$Vb}),o($Vh,[2,6],{11:$Va,12:$Vb}),o($Vh,[2,7],{11:$Va,12:$Vb}),o([5,6,7,8,9,10,11,17],[2,11],{12:$Vb,13:[1,27],14:[1,28]}),o($Vd,[2,14]),o($Vc,$V0,{4:29,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:30,7:$V1,12:$V2,16:$V3,18:$V4}),o($Ve,[2,9],{12:$Vb}),o($Ve,[2,10],{12:$Vb})],
+table: [o([5,6,8,9,10,11],$V0,{3:1,4:2,7:$V1,12:$V2,16:$V3,18:$V4}),{1:[3]},{5:[1,7],6:$V5,7:$V6,8:$V7,9:$V8,10:$V9,11:$Va,12:$Vb},o($Vc,$V0,{4:15,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:16,7:$V1,12:$V2,15:[1,17],16:$V3,18:$V4}),o([6,8,9,10,11,17],$V0,{4:18,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vd,[2,18]),{1:[2,1]},o($Vc,$V0,{4:19,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:20,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:21,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:22,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:23,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:24,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:25,7:$V1,12:$V2,15:[1,26],16:$V3,18:$V4}),o($Vd,[2,8]),o($Ve,[2,12],{12:$Vb}),o($Vd,[2,16]),{6:$V5,7:$V6,8:$V7,9:$V8,10:$V9,11:$Va,12:$Vb,17:[1,27]},o($Vf,[2,2],{8:$V7,9:$V8,10:$V9,11:$Va,12:$Vb}),o($Vf,[2,3],{8:$V7,9:$V8,10:$V9,11:$Va,12:$Vb}),o($Vg,[2,4],{10:$V9,11:$Va,12:$Vb}),o($Vg,[2,5],{10:$V9,11:$Va,12:$Vb}),o($Vh,[2,6],{11:$Va,12:$Vb}),o($Vh,[2,7],{11:$Va,12:$Vb}),o([5,6,7,8,9,10,11,17],[2,11],{12:$Vb,13:[1,28],14:[1,29]}),o([5,6,7,8,9,10,11,12,17],[2,15],{13:[1,30],14:[1,31]}),o($Vd,[2,17]),o($Vc,$V0,{4:32,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:33,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:34,7:$V1,12:$V2,16:$V3,18:$V4}),o($Vc,$V0,{4:35,7:$V1,12:$V2,16:$V3,18:$V4}),o($Ve,[2,9],{12:$Vb}),o($Ve,[2,10],{12:$Vb}),o($Ve,[2,13],{12:$Vb}),o($Ve,[2,14],{12:$Vb})],
 defaultActions: {7:[2,1]},
 parseError: function parseError(str, hash) {
     if (hash.recoverable) {
@@ -320,7 +351,9 @@ parse: function parse(input) {
     return true;
 }};
 
-	function getRandomInt(min, max) {return Math.floor(Math.random() * (max - min + 1)) + min;}
+	function getRandomInt(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
 /* generated by jison-lex 0.3.4 */
 var lexer = (function(){
 var lexer = ({
@@ -683,7 +716,7 @@ case 15:throw "Invalid Input Token!"
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:[0-9]+)/,/^(?:\*|�)/,/^(?:\/)/,/^(?:-)/,/^(?:\+)/,/^(?:\^)/,/^(?:%)/,/^(?:\()/,/^(?:\))/,/^(?:d|D\b)/,/^(?:h|H|k|K\b)/,/^(?:l|L\b)/,/^(?:f|F\b)/,/^(?:$)/,/^(?:.)/],
+rules: [/^(?:\s+)/,/^(?:[0-9]+)/,/^(?:[*�])/,/^(?:[\/�])/,/^(?:-)/,/^(?:\+)/,/^(?:\^)/,/^(?:%)/,/^(?:\()/,/^(?:\))/,/^(?:[dD])/,/^(?:[hHkK])/,/^(?:[lL])/,/^(?:[fF])/,/^(?:$)/,/^(?:.)/],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],"inclusive":true}}
 });
 return lexer;

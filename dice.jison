@@ -1,5 +1,7 @@
 %{
-	function getRandomInt(min, max) {return Math.floor(Math.random() * (max - min + 1)) + min;}
+	function getRandomInt(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
 %}
 
 /* lexical grammar */
@@ -8,20 +10,20 @@
 
 \s+			/* skip whitespace */
 [0-9]+			return 'NUMBER'
-"*"|"×"			return '*'
-"/"			return '/'
-"-"			return '-'
-"+"			return '+'
-"^"			return '^'
-"%"			return '%'
-"("			return '('
-")"			return ')'
-"d"|"D"			return 'D'
-"h"|"H"|"k"|"K"		return 'H'
-"l"|"L"			return 'L'
-"f"|"F"			return 'F'
+"*"				return '*'
+"/"				return '/'
+"-"				return '-'
+"+"				return '+'
+"^"				return '^'
+"%"				return '%'
+"("				return '('
+")"				return ')'
+[dD]			return 'D'
+[hHkK]			return 'H'
+[lL]			return 'L'
+[fF]			return 'F'
 <<EOF>>			return 'EOF'
-.			throw "Invalid Input Token!"
+.				throw "Invalid Input Token!"
 
 /lex
 
@@ -53,7 +55,7 @@ e:
 | e 'D' e 'H' e		{
 	if($3 < 1)  throw "Dice must have at least one side!";
 	if($5 < 1)  throw "You must keep at least one die!";
-	if($5 > $3) throw "You can't keep more dice than you roll!";
+	if($5 > $1) throw "You can't keep more dice than you roll!";
 	var rolls = [];
 	for(var i = $1; i--;) rolls.push(getRandomInt(1, $3));
 	var roll = rolls.sort(function (a, b) {return a - b;}).slice(rolls.length - $5, rolls.length).reduce(function (a, b) {return a + b;});
@@ -63,7 +65,7 @@ e:
 | e 'D' e 'L' e		{
 	if($3 < 1)  throw "Dice must have at least one side!";
 	if($5 < 1)  throw "You must keep at least one die!";
-	if($5 > $3) throw "You can't keep more dice than you roll!";
+	if($5 > $1) throw "You can't keep more dice than you roll!";
 	var rolls = [];
 	for(var i = $1; i--;) rolls.push(getRandomInt(1, $3));
 	var roll = rolls.sort(function (a, b) {return a - b;}).slice(0, $5).reduce(function (a, b) {return a + b;});
@@ -84,6 +86,31 @@ e:
 	console.log("Rolled " + roll);
 	$$ = roll;
 }
+| e 'D' 'F' 'H' e		{
+	if($5 < 1)  throw "You must keep at least one die!";
+	if($5 > $1) throw "You can't keep more dice than you roll!";
+	var rolls = [];
+	for(var i = $1; i--;) rolls.push(getRandomInt(-1, 1));
+	var roll = rolls.sort(function (a, b) {return a - b;}).slice(rolls.length - $5, rolls.length).reduce(function (a, b) {return a + b;});
+	console.log("Rolled " + rolls + " = " + roll);
+	$$ = roll;
+}
+| e 'D' 'F' 'L' e		{
+	if($5 < 1)  throw "You must keep at least one die!";
+	if($5 > $1) throw "You can't keep more dice than you roll!";
+	var rolls = [];
+	for(var i = $1; i--;) rolls.push(getRandomInt(-1, 1));
+	var roll = rolls.sort(function (a, b) {return a - b;}).slice(0, $5).reduce(function (a, b) {return a + b;});
+	console.log("Rolled " + rolls + " = " + roll);
+	$$ = roll;
+}
+| e 'D' 'F'		{
+	var rolls = [];
+	for(var i = $1; i--;) rolls.push(getRandomInt(-1, 1));
+	var roll = rolls.reduce(function (a, b) {return a + b;});
+	console.log("Rolled " + rolls + " = " + roll);
+	$$ = roll;
+}
 | 'D' 'F'		{
 	var roll = getRandomInt(-1, 1);
 	console.log("Rolled " + roll);
@@ -91,5 +118,5 @@ e:
 }
 | '(' e ')'		{$$ = $2;}
 | NUMBER		{$$ = Number(yytext);}
-| .			{throw "Invalid Input Structure";}
+| .				{throw "Invalid Input Structure";}
 ;

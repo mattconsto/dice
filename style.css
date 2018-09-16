@@ -1,0 +1,30 @@
+/* Font Awesome Icon compatability */
+nav i, nav [class^="mdi-"], nav [class*="mdi-"], nav i.material-icons {
+	display: inline-block;
+	user-select: none;
+}
+
+nav i.material-icons:not(:first-child) {
+	padding: 0 0 0 15px;
+}
+
+nav i.material-icons.fa {
+	position: relative;
+	top: -3px;
+}
+
+/* Disabled polyfill */
+a[disabled]:not([disabled="false"]) {
+	pointer-events: none;
+	cursor: default;
+	opacity: 0.5;
+}
+
+/* Styling */
+body {
+	background: #1f1f1f;
+}
+
+nav {
+	background: #1f1f1f;
+}

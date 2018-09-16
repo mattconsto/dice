@@ -1,0 +1,41 @@
+---
+layout: card
+title: Dice Roller
+---
+
+<h2>Dice Roller</h2>
+
+<div>
+	<p id="dicebuttons"><button>d2</button> <button>d4</button> <button>d6</button> <button>d8</button> <button>d10</button> <button>d12</button> <button>d20</button> <button>d100</button> <button>df</button></p>
+	<p><input type="text" id="input" value="4d6h2+2" /></p>
+	<p><output id="output"></output></p>
+	<p><button onclick="calculate();">Roll</button></p>
+</div>
+
+	
+<script src="dice.min.js"></script>
+<script>
+	function calculate() {
+		try {
+			document.getElementById("output").innerText = document.getElementById("input").value + " = " + dice.parse(document.getElementById("input").value);
+		} catch (e) {
+			document.getElementById("output").innerText = e;
+		}
+	}
+	
+	calculate();
+	
+	var buttons = document.querySelectorAll("#dicebuttons button"), i;
+
+	for (i = 0; i < buttons.length; ++i) {
+		buttons[i].onclick = function(event) {
+			document.getElementById("input").value = event.target.innerText;
+			calculate();
+		}
+	}
+	
+	document.getElementById("input").addEventListener("keyup", function(event) {
+		event.preventDefault();
+		if(event.keyCode == 13) calculate();
+	});
+</script>

@@ -1,0 +1,38 @@
+{
+  "name": "fantasy-dice",
+  "version": "1.0.2",
+  "description": "Dice equation roller",
+  "main": "node.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "bin": {
+    "roll": "command.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattconsto/dice.git"
+  },
+  "keywords": [
+    "dice",
+    "equation",
+    "roller",
+    "d6",
+    "d8",
+    "d10",
+    "d12",
+    "d20",
+    "d100",
+    "df"
+  ],
+  "author": "Matthew Consterdine",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mattconsto/dice/issues"
+  },
+  "homepage": "https://github.com/mattconsto/dice#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  }
+}

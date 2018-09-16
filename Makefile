@@ -4,3 +4,8 @@ all:
 
 clean:
 	@rm dice.js dice.min.js
+
+test:
+	./node_modules/.bin/mocha --reporter spec
+
+.PHONY: test

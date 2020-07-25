@@ -1,6 +1,8 @@
 dice
 ===
 
+[![Screenshot](/screenshot.png)](https://consto.uk/dice)
+
 A Jison, DnD-style dice roller. Simply supply a string and it will parse it into a roll. Supports arithmetic, keeping high/low dice, and fudge dice.
 
 ## Usage

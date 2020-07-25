@@ -14,6 +14,9 @@
 			position: relative;
 			font-weight: bold;
 		}
+		a, a:visited {
+			color: #56525E;
+		}
 		body {
 			width: 400px;
 			margin: 0 auto;
@@ -53,29 +56,42 @@
 		}
 		.row * {
 			margin: 0 4px;
-		}
-		.row * {
 			flex-grow: 1;
+		}
+		.row *:first-child {
+			margin-left: 0;
+		}
+		.row *:last-child {
+			margin-right: 0;
 		}
 		input[type="text"] {
 			width: 100%;
 			box-sizing: border-box;
 		}
-		#output-row {
+		#outputs {
+			padding-left: 1em;
+		}
+		#outputs li {
+			margin: 5px 0;
+		}
+		#outputs li:not(:first-child) {
+			color: #9C92AC;
+		}
+		#outputs output {
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			margin-bottom: 0
+			display: block;
 		}
 	</style>
 </head>
 <body>
 	<header>
 		<h1>Dice Roller</h1>
-		<h3>A Jison DnD style dice roller</h3>
+		<h3>A Jison, DnD-style dice roller</h3>
 	</header>
 	<main>
-		<p class="row" id="dicebuttons">
+		<p class="row" id="buttons">
 			<button>d2</button>
 			<button>d4</button>
 			<button>d6</button>
@@ -90,41 +106,61 @@
 			<input type="text" id="input" value="4d6h2+2" />
 			<button onclick="calculate()">Roll</button>
 		</p>
-		<p id="output-row">
-			<output id="output"></output>
+		<ul id="outputs"></ul>
+		<p style="margin-bottom: 0">
+			Created by <a href="https://consto.uk">Matthew Consterdine</a>
 		</p>
 	</main>
 </body>
 	<script>
-		var input  = document.getElementById("input");
-		var output = document.getElementById("output");
-		var buttons = document.querySelectorAll("#dicebuttons button");
+		var max_results = 20;
+		var max_queries = 10;
 
-		var results = [];
-		var last_query = '';
+		var input = document.getElementById("input");
+		var output;
+		var buttons = document.querySelectorAll("#buttons button");
+
+		var results, last_query;
 		function calculate() {
 			try {
 				var query = input.value;
-				if(query != last_query) results = [];
+				if(query != last_query) {
+					results = [];
+
+					var li = document.createElement('li');
+					output = document.createElement('output');
+					li.appendChild(output);
+					document.getElementById("outputs").insertBefore(
+						li, document.getElementById("outputs").firstChild
+					);
+
+					if(document.getElementById("outputs").childElementCount >
+						max_queries
+					) {
+						document.getElementById("outputs").removeChild(
+							document.getElementById("outputs").lastChild
+						);
+					}
+				}
 				last_query = query;
 				var result = dice.parse(query);
-				if(results.length > 100) results.pop();
+				if(results.length > max_results) results.pop();
 				results.unshift(result);
 				output.innerText = input.value + " = " + results.join(', ');
 			} catch (e) {
 				output.innerText = e;
 			}
 		}
-		
+
 		calculate();
-		
+
 		for (var i = 0; i < buttons.length; ++i) {
 			buttons[i].onclick = function(event) {
 				input.value = event.target.innerText;
 				calculate();
 			}
 		}
-		
+
 		input.addEventListener("keyup", function(event) {
 			event.preventDefault();
 			if (event.keyCode == 13) calculate();

@@ -68,13 +68,13 @@
 			width: 100%;
 			box-sizing: border-box;
 		}
-		#outputs {
-			padding-left: 1em;
-		}
-		#outputs li {
+		#outputs > * {
 			margin: 5px 0;
 		}
-		#outputs li:not(:first-child) {
+		#outputs output:before {
+			content: "• ";
+		}
+		#outputs > *:not(:first-child) {
 			color: #9C92AC;
 		}
 		#outputs output {
@@ -103,10 +103,10 @@
 			<button>df</button>
 		</p>
 		<p class="row">
-			<input type="text" id="input" value="4d6h2+2" />
+			<input type="text" id="input" value="4d6k3" />
 			<button onclick="calculate()">Roll</button>
 		</p>
-		<ul id="outputs"></ul>
+		<div id="outputs"></div>
 		<p style="margin-bottom: 0">
 			Created by <a href="https://consto.uk">Matthew Consterdine</a>
 		</p>
@@ -127,11 +127,11 @@
 				if(query != last_query) {
 					results = [];
 
-					var li = document.createElement('li');
+					var p = document.createElement('p');
 					output = document.createElement('output');
-					li.appendChild(output);
+					p.appendChild(output);
 					document.getElementById("outputs").insertBefore(
-						li, document.getElementById("outputs").firstChild
+						p, document.getElementById("outputs").firstChild
 					);
 
 					if(document.getElementById("outputs").childElementCount >

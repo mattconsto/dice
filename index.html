@@ -74,7 +74,7 @@
 		#outputs output:before {
 			content: "• ";
 		}
-		#outputs > *:not(:first-child) {
+		#outputs > *:not(:first-child), output > *:not(:first-child) {
 			color: #9C92AC;
 		}
 		#outputs output {
@@ -118,6 +118,8 @@
 
 		var input = document.getElementById("input");
 		var output;
+		var current;
+		var previous;
 		var buttons = document.querySelectorAll("#buttons button");
 
 		var results, last_query;
@@ -130,6 +132,13 @@
 					var p = document.createElement('p');
 					output = document.createElement('output');
 					p.appendChild(output);
+
+					current = document.createElement('span');
+					output.appendChild(current);
+
+					previous = document.createElement('span');
+					output.appendChild(previous);
+
 					document.getElementById("outputs").insertBefore(
 						p, document.getElementById("outputs").firstChild
 					);
@@ -146,9 +155,21 @@
 				var result = dice.parse(query);
 				if(results.length > max_results) results.pop();
 				results.unshift(result);
-				output.innerText = input.value + " = " + results.join(', ');
+
+				if (results.length > 0) {
+					current.innerText = input.value + " = " + results[0];
+				} else {
+					current.innerText = "";
+				}
+
+				if (results.length > 1) {
+					previous.innerText = ", " + results.slice(1).join(", ");
+				} else {
+					previous.innerText = "";
+				}
 			} catch (e) {
-				output.innerText = e;
+				current.innerText = e;
+				previous.innerText = "";
 			}
 		}
 
